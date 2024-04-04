@@ -3,4 +3,9 @@
 ## Stack used:
 * Aiogram3
 * Aiosqlite
-"# Async_CRUD" 
+* Redis
+
+## TODO:
+* Appscheduler
+* Inline keyboards
+* Middleware
