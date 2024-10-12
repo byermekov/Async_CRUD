@@ -1,15 +1,20 @@
+import os
 import aiosqlite
-from aiogram import Bot
-from aiogram.types import Message
 import datetime
 from log import register_log
 import redis
+from dotenv import load_dotenv, find_dotenv
 
-red = redis.Redis(host="localhost", port=6379, db=0)
-
+load_dotenv(find_dotenv())
 
 global DB
-DB = "botdb.db"
+
+REDIS_HOST = os.environ.get("REDIS_HOST")
+REDIS_PORT = os.environ.get("REDIS_PORT")
+DB = os.environ.get("DATABASE_URL")
+
+red = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
+
 
 
 async def initialize():
@@ -221,7 +226,7 @@ async def remove_item(item_id):
             await cur.execute(update_query, (item_id,))
             await conn.commit()
 
-            log = f'{datetime.datetime.now().strftime('%B %d, %Y')} ------- Item {item_id} was updated\n'
+            log = f"{datetime.datetime.now().strftime('%B %d, %Y')} ------- Item {item_id} was updated\n"
             print(log)
             await register_log(log)
 
